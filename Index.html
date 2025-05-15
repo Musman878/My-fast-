@@ -1,0 +1,100 @@
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(FahmUlQuranApp());
+}
+
+class FahmUlQuranApp extends StatefulWidget {
+  @override
+  _FahmUlQuranAppState createState() => _FahmUlQuranAppState();
+}
+
+class _FahmUlQuranAppState extends State<FahmUlQuranApp> {
+  bool isDarkMode = false;
+
+  void toggleTheme() {
+    setState(() {
+      isDarkMode = !isDarkMode;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'فہم القرآن',
+      theme: isDarkMode ? ThemeData.dark() : ThemeData.light(),
+      home: HomeScreen(toggleTheme: toggleTheme),
+    );
+  }
+}
+
+class HomeScreen extends StatelessWidget {
+  final VoidCallback toggleTheme;
+
+  HomeScreen({required this.toggleTheme});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('فہم القرآن'),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.brightness_6),
+            onPressed: toggleTheme,
+          ),
+        ],
+      ),
+      body: Center(
+        child: ElevatedButton(
+          child: Text('قرآن پڑھیں'),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => QuranScreen()),
+            );
+          },
+        ),
+      ),
+    );
+  }
+}
+
+class QuranScreen extends StatelessWidget {
+  final List<String> quranText = [
+    "بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيمِ",
+    "الْحَمْدُ لِلّٰهِ رَبِّ الْعٰلَمِيْنَ",
+    "الرَّحْمٰنِ الرَّحِيْمِ",
+    "مٰلِكِ يَوْمِ الدِّينِ",
+    "إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِيْنُ",
+    "اهْدِنَا الصِّرَاطَ الْمُسْتَقِيْمَ",
+    "صِرَاطَ الَّذِيْنَ أَنْعَمْتَ عَلَيْهِمْ",
+    "غَيْرِ الْمَغْضُوْبِ عَلَيْهِمْ وَلَا الضَّالِّينَ"
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('قرآن'),
+      ),
+      body: ListView.builder(
+        padding: EdgeInsets.all(16),
+        itemCount: quranText.length,
+        itemBuilder: (context, index) {
+          return Card(
+            margin: EdgeInsets.symmetric(vertical: 8),
+            child: Padding(
+              padding: EdgeInsets.all(16),
+              child: Text(
+                quranText[index],
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                textAlign: TextAlign.center,
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
